@@ -2,36 +2,86 @@ import random
 
 # Key will be an integer randomized
 # Key represents the number of letters to shift in the alphabet (our 27 character alphabet)
-KEY = 1
+KEY = 27
 
+# Z = 90 (ascii)
+# A = 65 (ascii)
+# ' ' = 32 (ascii)
+# Going to always pretend " " is 64 for these cases, will do handling as needed
 
-def enc(message: str) -> str:
+def enc(message: str, KEY=KEY) -> str:
     '''
     Function is used to encrypt a string of text using the Caesar cipher method.
     Accepts: String of text to be encrypted
     Returns: Encrypted string
     '''
+    enc_message = ""
     for letter in message:
-        letter = letter + KEY
+        num = ord(letter)
+        # Assign the new character with ascii number
+        if num == 32:
+            new_char_ascii = 64 + KEY
+        else:
+            new_char_ascii = num + KEY
 
-    pass
+        # Check for overflow cases
+        if new_char_ascii > 90:
+            #print("Rollover handling")
+            #print(num)
+            offset = new_char_ascii - 90
+            new_char_ascii = 63 + offset
+            #print(new_char_ascii)
 
-def dec(message_enc: str) -> str:
+        # Reset for space
+        if new_char_ascii == 64:
+            new_char_ascii = 32
+                
+        # Build the encrypted string
+        enc_letter = chr(new_char_ascii)
+        enc_message = enc_message + enc_letter
+
+    return enc_message
+
+def dec(enc_message: str, KEY=KEY) -> str:
     '''
     Function is used to decrypt a string of text using the Caesar cipher method.
     Accepts: String of text to be decrypted
     Returns: Decrypted string
     '''
-    for letter in message_enc:
-        letter = letter - KEY
-    pass
+    dec_message = ""
+    for letter in enc_message:
+        
+        num = ord(letter)
+        #print(num)
+        # Assign the new character (decrypted) as its ascii value
+        if num == 32:
+            #print("hit space")
+            new_char_ascii = 64 - KEY
+        else:
+            new_char_ascii = num - KEY
+
+        # Check the overflow condition
+        if new_char_ascii < 64:
+            offset = new_char_ascii - 64
+            offset = -(offset)
+            new_char_ascii = 91 - offset
+
+        # Reset for space
+        if new_char_ascii == 64:
+            #print('hit this case')
+            new_char_ascii = 32
+
+        dec_letter = chr(new_char_ascii)
+        dec_message = dec_message + dec_letter
+
+    return dec_message
 
 def gen():
     '''
     Function randomly generates the key
     '''
     global KEY
-    KEY = random.randint(0, 27)
+    KEY = random.randint(0, 26)
     
 
 
@@ -44,29 +94,12 @@ message = "MESSAGZ"
 #message_dec = dec(message_enc)
 #print(message_dec)
 
-# This will be the encryption function
-enc_message = ""
-for i, letter in enumerate(message):
-    if letter.isalpha():
-        num = ord(letter)
-        if num + KEY > 90:
-            #print("Rollover handling")
-            #print(num)
-            new_char_ascii = (num + KEY - 90) + 63
-            #print(new_char_ascii)
-        elif num == 20:
-            new_char_ascii = 63 + KEY
-        else:
-            new_char_ascii = num + KEY
-
-        if new_char_ascii == 64:
-            new_char_ascii = 32
-        enc_letter = chr(new_char_ascii)
-        enc_message = enc_message + enc_letter
-
-
 
 print(message)
+enc_message = enc(message)
 print(enc_message)
 
 # Now we can do the decryption function
+dec_message = dec(enc_message)
+print(dec_message)
+        
