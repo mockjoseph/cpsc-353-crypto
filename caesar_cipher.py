@@ -9,6 +9,8 @@ KEY = 27
 # ' ' = 32 (ascii)
 # Going to always pretend " " is 64 for these cases, will do handling as needed
 
+# Key can be optionally passed in for test cases
+# Key defaults to global key that is generated in gen()
 def enc(message: str, KEY=KEY) -> str:
     '''
     Function is used to encrypt a string of text using the Caesar cipher method.
@@ -42,6 +44,8 @@ def enc(message: str, KEY=KEY) -> str:
 
     return enc_message
 
+# Key can be optionally passed in for test cases
+# Key defaults to global key that is generated in gen()
 def dec(enc_message: str, KEY=KEY) -> str:
     '''
     Function is used to decrypt a string of text using the Caesar cipher method.
