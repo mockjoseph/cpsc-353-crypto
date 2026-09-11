@@ -2,7 +2,7 @@ import random
 
 # Key will be an integer randomized
 # Key represents the number of letters to shift in the alphabet (our 27 character alphabet)
-KEY = 27
+KEY = None
 
 # Z = 90 (ascii)
 # A = 65 (ascii)
@@ -11,20 +11,22 @@ KEY = 27
 
 # Key can be optionally passed in for test cases
 # Key defaults to global key that is generated in gen()
-def enc(message: str, KEY=KEY) -> str:
+def enc(message: str, key: int = None) -> str:
     '''
     Function is used to encrypt a string of text using the Caesar cipher method.
     Accepts: String of text to be encrypted
     Returns: Encrypted string
     '''
+    if key is None:
+        key = KEY
     enc_message = ""
     for letter in message:
         num = ord(letter)
         # Assign the new character with ascii number
         if num == 32:
-            new_char_ascii = 64 + KEY
+            new_char_ascii = 64 + key
         else:
-            new_char_ascii = num + KEY
+            new_char_ascii = num + key
 
         # Check for overflow cases
         if new_char_ascii > 90:
@@ -46,12 +48,14 @@ def enc(message: str, KEY=KEY) -> str:
 
 # Key can be optionally passed in for test cases
 # Key defaults to global key that is generated in gen()
-def dec(enc_message: str, KEY=KEY) -> str:
+def dec(enc_message: str, key: int = None) -> str:
     '''
     Function is used to decrypt a string of text using the Caesar cipher method.
     Accepts: String of text to be decrypted
     Returns: Decrypted string
     '''
+    if key is None:
+        key = KEY
     dec_message = ""
     for letter in enc_message:
         
@@ -86,8 +90,17 @@ def gen():
     '''
     global KEY
     KEY = random.randint(0, 26)
-    
+    print(KEY)
 
+# Example run:    
+message = "ATTACK DEFEND"
+gen()
+enc_message = enc(message)
+print("Original Message:", message)
+print("Message encrypted:", enc_message)
+print("Decrypting Message...")
+dec_message = dec(enc_message)
+print("Decrypted Message:", dec_message)
 
 message = "MESSAGZ"
 #print(message)
