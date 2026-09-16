@@ -17,8 +17,10 @@ def enc(message: str, key: int = None) -> str:
     Accepts: String of text to be encrypted
     Returns: Encrypted string
     '''
+
     if key is None:
         key = KEY
+
     enc_message = ""
     for letter in message:
         num = ord(letter)
@@ -44,6 +46,7 @@ def enc(message: str, key: int = None) -> str:
         enc_letter = chr(new_char_ascii)
         enc_message = enc_message + enc_letter
 
+    print(enc_message)
     return enc_message
 
 # Key can be optionally passed in for test cases
@@ -64,9 +67,9 @@ def dec(enc_message: str, key: int = None) -> str:
         # Assign the new character (decrypted) as its ascii value
         if num == 32:
             #print("hit space")
-            new_char_ascii = 64 - KEY
+            new_char_ascii = 64 - key
         else:
-            new_char_ascii = num - KEY
+            new_char_ascii = num - key
 
         # Check the overflow condition
         if new_char_ascii < 64:
@@ -80,8 +83,10 @@ def dec(enc_message: str, key: int = None) -> str:
             new_char_ascii = 32
 
         dec_letter = chr(new_char_ascii)
+        print(dec_letter)
         dec_message = dec_message + dec_letter
 
+    print(dec_message)
     return dec_message
 
 def gen():
@@ -90,7 +95,7 @@ def gen():
     '''
     global KEY
     KEY = random.randint(0, 26)
-    print(KEY)
+    #print(KEY)
 
 # Example run:    
 message = "ATTACK DEFEND"
@@ -101,22 +106,3 @@ print("Message encrypted:", enc_message)
 print("Decrypting Message...")
 dec_message = dec(enc_message)
 print("Decrypted Message:", dec_message)
-
-message = "MESSAGZ"
-#print(message)
-
-#message_enc = enc(message)
-#print(message_enc)
-
-#message_dec = dec(message_enc)
-#print(message_dec)
-
-
-print(message)
-enc_message = enc(message)
-print(enc_message)
-
-# Now we can do the decryption function
-dec_message = dec(enc_message)
-print(dec_message)
-        
