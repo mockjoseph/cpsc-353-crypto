@@ -6,4 +6,4 @@ def test_caesar_cipher():
         enc_message = caesar_cipher.enc(message, i)
         dec_message = caesar_cipher.dec(enc_message, i)
         assert dec_message == message
-    
+
