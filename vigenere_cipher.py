@@ -42,7 +42,7 @@ def vigenere_encode(message: str, key: str = None) -> str:
     enc_message = ""
     for i in range(len(message)):
         enc_letter_indx = (alphabet.index(message[i]) + alphabet.index(full_key[i])) % 27
-        print(enc_letter_indx)
+        #print(enc_letter_indx)
         enc_message += alphabet[enc_letter_indx]
 
     return enc_message
@@ -60,6 +60,7 @@ def vigenere_decode(message_enc: str, key: str = None) -> str:
     else:
         full_key = key
 
+   # print("FUll key:", full_key)
     dec_message = ""
     for i in range(len(message_enc)):
         dec_letter_indx = (alphabet.index(message_enc[i]) - alphabet.index(full_key[i])) % 27
@@ -70,7 +71,7 @@ def vigenere_decode(message_enc: str, key: str = None) -> str:
 
 message = "HELP ME"
 key = "NONONON"
-enc_message = vigenere_encode(key, message)
+enc_message = vigenere_encode(message, key)
 dec_message = vigenere_decode(enc_message, key)
 print(dec_message)
 print(enc_message)
